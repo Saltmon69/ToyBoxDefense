@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Turret_Script : MonoBehaviour
@@ -18,6 +19,8 @@ public class Turret_Script : MonoBehaviour
 
     [SerializeField] private GameObject ShootVFX;
     [SerializeField] private GameObject BulletSpawner;
+
+    [SerializeField] private GameObject HitVFX;
     //[SerializeField] private GameObject Bullet;
 
     [SerializeField] private AudioSource shotSound;
@@ -29,16 +32,15 @@ public class Turret_Script : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
     {
         if (enemyList.Count > 0)
             enemyLife = enemyList[0];
+        if (enemyLife.IsDestroyed())
+            enemyList.Remove(enemyLife);
 
         if (enemyLife.healthPoint == 0)
             enemyList.Remove(enemyLife);
@@ -80,9 +82,10 @@ public class Turret_Script : MonoBehaviour
     public void Attack()
     {
         
-        enemyLife.healthPoint--;
+        enemyLife.healthPoint -= 0.2f;
         hitSound.Play();
         shotSound.Play();
+        Destroy(Instantiate(HitVFX, enemyList[0].transform), 0.5f);
         GameObject.Destroy(GameObject.Instantiate(ShootVFX, BulletSpawner.transform), 0.5f);
         
         

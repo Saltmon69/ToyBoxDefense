@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 
@@ -9,7 +10,7 @@ public class Enemy_Script : MonoBehaviour
 {
     
     
-    public int healthPoint;
+    public float healthPoint;
 
     //public GameObject self;
 
@@ -27,10 +28,17 @@ public class Enemy_Script : MonoBehaviour
 
     public GameObject DeathVFX;
     public GameObject HitVFX;
+    
+    
+    //Health bar
+    [SerializeField] private Image healthbar;
+    [SerializeField] private GameObject healthbarObject;
+    [SerializeField] private GameObject cam;
     void Start()
     {
+        cam = GameObject.Find("Main Camera");
         dead = false;
-        healthPoint = 5;
+        healthPoint = 1;
         
     }
 
@@ -38,6 +46,8 @@ public class Enemy_Script : MonoBehaviour
     void Update()
     {
         //Debug.Log(healthPoint);
+        healthbarObject.transform.LookAt(cam.transform.position);
+        healthbar.fillAmount = healthPoint;
         
         if (dead == false)
             if (healthPoint <= 0)
@@ -54,7 +64,7 @@ public class Enemy_Script : MonoBehaviour
     {
         //list.enemyList.Remove(gameObject.GetComponent<Enemy_Script>());
         spawner.mobkilled++;
-        playerData.money += 100;
+        playerData.money += 50;
         Destroy(GameObject.Instantiate(DeathVFX, gameObject.transform), 0.5f);
         Destroy(transform.parent.gameObject, 0.5f);
         
@@ -62,7 +72,8 @@ public class Enemy_Script : MonoBehaviour
 
     public void Hit()
     {
-        Destroy(GameObject.Instantiate(HitVFX, gameObject.transform), 0.5f);
+        Destroy(GameObject.Instantiate(HitVFX, gameObject.transform), 0.7f);
+        
         healthPoint--;
     }
 }

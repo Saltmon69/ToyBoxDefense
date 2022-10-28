@@ -1,0 +1,102 @@
+{
+    "name": "Inputs",
+    "maps": [
+        {
+            "name": "Mouse",
+            "id": "e96bfd29-f2ad-4f49-b1d2-8420b2a52fd7",
+            "actions": [
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "870f1e22-ffbd-4917-b2ce-4989a0ca7917",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Position",
+                    "type": "PassThrough",
+                    "id": "7144a606-ec3c-4642-8c6d-0b173213760e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e75d22ab-8c96-4e82-b589-cabf0bf94372",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f8b583d3-5bb6-492a-9e2c-3367698c4548",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Keyboard",
+            "id": "20fd930f-5c28-4b4b-85f6-1f1f9517182d",
+            "actions": [
+                {
+                    "name": "Espace",
+                    "type": "Button",
+                    "id": "a8eecac8-fa41-429e-a04e-78db492f951a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Echap",
+                    "type": "Button",
+                    "id": "bc78afe6-e0c0-4530-8f46-31fdf87dbfd8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e43ca32d-bf21-4c2a-85e1-635dd2302f6b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Espace",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d575645-c3db-4e6f-b166-fb7e0cac4183",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Echap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

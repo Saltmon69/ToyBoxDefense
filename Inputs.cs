@@ -70,6 +70,54 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Keyboard"",
+            ""id"": ""20fd930f-5c28-4b4b-85f6-1f1f9517182d"",
+            ""actions"": [
+                {
+                    ""name"": ""Espace"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8eecac8-fa41-429e-a04e-78db492f951a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Echap"",
+                    ""type"": ""Button"",
+                    ""id"": ""bc78afe6-e0c0-4530-8f46-31fdf87dbfd8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e43ca32d-bf21-4c2a-85e1-635dd2302f6b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Espace"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d575645-c3db-4e6f-b166-fb7e0cac4183"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Echap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -78,6 +126,10 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_Click = m_Mouse.FindAction("Click", throwIfNotFound: true);
         m_Mouse_Position = m_Mouse.FindAction("Position", throwIfNotFound: true);
+        // Keyboard
+        m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
+        m_Keyboard_Espace = m_Keyboard.FindAction("Espace", throwIfNotFound: true);
+        m_Keyboard_Echap = m_Keyboard.FindAction("Echap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -174,9 +226,55 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
         }
     }
     public MouseActions @Mouse => new MouseActions(this);
+
+    // Keyboard
+    private readonly InputActionMap m_Keyboard;
+    private IKeyboardActions m_KeyboardActionsCallbackInterface;
+    private readonly InputAction m_Keyboard_Espace;
+    private readonly InputAction m_Keyboard_Echap;
+    public struct KeyboardActions
+    {
+        private @Inputs m_Wrapper;
+        public KeyboardActions(@Inputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Espace => m_Wrapper.m_Keyboard_Espace;
+        public InputAction @Echap => m_Wrapper.m_Keyboard_Echap;
+        public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(KeyboardActions set) { return set.Get(); }
+        public void SetCallbacks(IKeyboardActions instance)
+        {
+            if (m_Wrapper.m_KeyboardActionsCallbackInterface != null)
+            {
+                @Espace.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnEspace;
+                @Espace.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnEspace;
+                @Espace.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnEspace;
+                @Echap.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnEchap;
+                @Echap.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnEchap;
+                @Echap.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnEchap;
+            }
+            m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Espace.started += instance.OnEspace;
+                @Espace.performed += instance.OnEspace;
+                @Espace.canceled += instance.OnEspace;
+                @Echap.started += instance.OnEchap;
+                @Echap.performed += instance.OnEchap;
+                @Echap.canceled += instance.OnEchap;
+            }
+        }
+    }
+    public KeyboardActions @Keyboard => new KeyboardActions(this);
     public interface IMouseActions
     {
         void OnClick(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
+    }
+    public interface IKeyboardActions
+    {
+        void OnEspace(InputAction.CallbackContext context);
+        void OnEchap(InputAction.CallbackContext context);
     }
 }

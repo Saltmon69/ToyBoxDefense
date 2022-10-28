@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UIElements.Button;
+using UnityEngine.SceneManagement;
 
 public class UI_Manager : MonoBehaviour
 {
@@ -24,7 +24,10 @@ public class UI_Manager : MonoBehaviour
     public GameObject niveaux1;
     
     public GameObject gameUI;
-    public GameObject worldUI;
+
+    public GameObject loseScreen;
+    public GameObject winscreen;
+    public GameObject pauseScreen;
     
     //Gamefeel bouton
 
@@ -37,11 +40,12 @@ public class UI_Manager : MonoBehaviour
         
         game.SetActive(false);
         niveaux1.SetActive(false);
-        
+        loseScreen.SetActive(false);
+        winscreen.SetActive(false);
         gameUI.SetActive(false);
-        worldUI.SetActive(false);
         levelMenu.SetActive(false);
         optionMenu.SetActive(false);
+        pauseScreen.SetActive(false);
     }
 
 
@@ -51,10 +55,15 @@ public class UI_Manager : MonoBehaviour
         {
             game.SetActive(false);
             niveaux1.SetActive(false);
-            
+            loseScreen.SetActive(false);
+            winscreen.SetActive(false);
+            levelMenu.SetActive(false);
+            optionMenu.SetActive(false);
             gameUI.SetActive(false);
-            worldUI.SetActive(false);
+            pauseScreen.SetActive(false);
+            
         }
+        
         
         
     }
@@ -68,7 +77,7 @@ public class UI_Manager : MonoBehaviour
         game.SetActive(true);
         niveaux1.SetActive(true);
         gameUI.SetActive(true);
-        worldUI.SetActive(true);
+        
     }
 
     public void LevelButton()
@@ -112,7 +121,7 @@ public class UI_Manager : MonoBehaviour
         game.SetActive(true);
         niveaux1.SetActive(true);
         gameUI.SetActive(true);
-        worldUI.SetActive(true);
+        
     }
 
     public void LoadLevel2()
@@ -125,7 +134,13 @@ public class UI_Manager : MonoBehaviour
         game.SetActive(true);
         
         gameUI.SetActive(true);
-        worldUI.SetActive(true);
+        
+    }
+
+    public void ReloadScene()
+    {
+        buttonclick.Play();
+        SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
     
 }

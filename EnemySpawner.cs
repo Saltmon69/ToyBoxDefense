@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -8,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject enemyprefab;
     [SerializeField] public int mobkilled;
     [SerializeField] private double mobtospawn;
+    
 
 
 
@@ -15,11 +17,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float cooldown = 3f;
     private float spawndelay = -9999f;
 
-    // Variables gestion des waves
+    // Variables gestion des waves et de la difficulté
 
-    
     [SerializeField] private Player_Data playerData;
-
+    private AIPath enemySpeed;
+    
 
 
 
@@ -27,14 +29,15 @@ public class EnemySpawner : MonoBehaviour
     {
         mobkilled = 0;
         mobtospawn = 3;
-
+        
+        
 
     }
 
     
     void Update()
     {
-
+        
        if (mobkilled < mobtospawn)
         {
             if (Time.time > spawndelay + cooldown)
@@ -50,6 +53,7 @@ public class EnemySpawner : MonoBehaviour
         if (mobkilled == mobtospawn)
         {
             playerData.wave++;
+            enemySpeed.maxSpeed *= 1.25f;
             mobkilled = 0;
             mobtospawn = mobtospawn * 2f;
         }

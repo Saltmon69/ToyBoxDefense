@@ -11,49 +11,36 @@ public class PlayerBase : MonoBehaviour
     public GameObject HitVFX;
     public GameObject LastHitVFX;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        
+        if (playerData.playerLife == 0)
+        {
+            playerData.gamelost = true;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"));
+        if (other.GetComponentInChildren<Enemy_Script>())
         {
-            if (playerData.playerLife <= 2)
-            {
-                Hit();
-            }
-
-            if (playerData.playerLife == 1)
-            {
-                LastHit();
-            }
+            Hit();
             
-            GameObject.Destroy(other.gameObject);
+            GameObject.Destroy(other.transform.parent);
         }
     }
 
     private void Hit()
     {
-        Destroy(GameObject.Instantiate(HitVFX, gameObject.transform), 1f);
         playerData.playerLife--;
+        Destroy(GameObject.Instantiate(HitVFX, gameObject.transform), 0.5f);
+        
         
     }
 
     private void LastHit()
     {
-        Destroy(GameObject.Instantiate(LastHitVFX, gameObject.transform), 1f);
+        Destroy(GameObject.Instantiate(LastHitVFX, gameObject.transform), 0.5f);
         playerData.playerLife--;
         playerData.gamelost = true;
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 0.5f);
     }
 }
